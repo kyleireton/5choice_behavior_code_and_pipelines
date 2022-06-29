@@ -1,0 +1,3784 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1353</width>
+    <height>738</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(222, 211, 255);</string>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>Main</string>
+         </attribute>
+         <widget class="QWidget" name="formLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>1071</width>
+            <height>51</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_exp">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Experimenter Name: </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_exp">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Minimum</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_prj">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Project: </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_prj">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Minimum</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_prj_2">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Session</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_prj_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="horizontalLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>1071</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLabel" name="label_data_dir">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Data dir:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_data_dir">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_data_dir">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="Line" name="line">
+          <property name="geometry">
+           <rect>
+            <x>-530</x>
+            <y>116</y>
+            <width>1831</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_4">
+          <property name="geometry">
+           <rect>
+            <x>3</x>
+            <y>1</y>
+            <width>1301</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_5">
+          <property name="geometry">
+           <rect>
+            <x>769</x>
+            <y>142</y>
+            <width>71</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Variables</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="Line" name="line_2">
+          <property name="geometry">
+           <rect>
+            <x>-530</x>
+            <y>546</y>
+            <width>1861</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_setupselect_1">
+          <property name="geometry">
+           <rect>
+            <x>1105</x>
+            <y>20</y>
+            <width>201</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(85, 170, 255);</string>
+          </property>
+          <property name="text">
+           <string>SetUp 1</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_setupselect_2">
+          <property name="geometry">
+           <rect>
+            <x>1105</x>
+            <y>54</y>
+            <width>201</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 170, 255);</string>
+          </property>
+          <property name="text">
+           <string>SetUp 2</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_setupselect_3">
+          <property name="geometry">
+           <rect>
+            <x>1105</x>
+            <y>90</y>
+            <width>201</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(85, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>SetUp 3</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_srport_8">
+          <property name="geometry">
+           <rect>
+            <x>1089</x>
+            <y>468</y>
+            <width>90</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_subid5">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>53</x>
+            <y>342</y>
+            <width>121</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_status_4">
+          <property name="geometry">
+           <rect>
+            <x>836</x>
+            <y>300</y>
+            <width>241</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_srport_1">
+          <property name="geometry">
+           <rect>
+            <x>1089</x>
+            <y>174</y>
+            <width>90</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_status_3">
+          <property name="geometry">
+           <rect>
+            <x>836</x>
+            <y>258</y>
+            <width>241</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_srport_7">
+          <property name="geometry">
+           <rect>
+            <x>1089</x>
+            <y>426</y>
+            <width>90</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_2">
+          <property name="geometry">
+           <rect>
+            <x>620</x>
+            <y>142</y>
+            <width>51</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Timer</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_var8">
+          <property name="geometry">
+           <rect>
+            <x>780</x>
+            <y>469</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>.....</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Start8">
+          <property name="geometry">
+           <rect>
+            <x>525</x>
+            <y>467</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(28, 255, 35);</string>
+          </property>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Start7">
+          <property name="geometry">
+           <rect>
+            <x>525</x>
+            <y>425</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(28, 255, 35);</string>
+          </property>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_task1">
+          <property name="geometry">
+           <rect>
+            <x>179</x>
+            <y>174</y>
+            <width>221</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>188</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Start4">
+          <property name="geometry">
+           <rect>
+            <x>525</x>
+            <y>299</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(28, 255, 35);</string>
+          </property>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_box8">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>474</y>
+            <width>46</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>BOX 00</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Start5">
+          <property name="geometry">
+           <rect>
+            <x>525</x>
+            <y>341</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(28, 255, 35);</string>
+          </property>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Start3">
+          <property name="geometry">
+           <rect>
+            <x>525</x>
+            <y>257</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(28, 255, 35);</string>
+          </property>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Stop6">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>383</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>STOP</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_subid1">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>53</x>
+            <y>174</y>
+            <width>121</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="tabletTracking">
+           <bool>false</bool>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_connect_3">
+          <property name="geometry">
+           <rect>
+            <x>1185</x>
+            <y>257</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 209, 115);</string>
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_box2">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>222</y>
+            <width>46</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>BOX 00</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Stop4">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>299</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>STOP</string>
+          </property>
+         </widget>
+         <widget class="QLCDNumber" name="lcdNumber_Timer_BOX7">
+          <property name="geometry">
+           <rect>
+            <x>613</x>
+            <y>427</y>
+            <width>64</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="smallDecimalPoint">
+           <bool>false</bool>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_status_8">
+          <property name="geometry">
+           <rect>
+            <x>836</x>
+            <y>468</y>
+            <width>241</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QLCDNumber" name="lcdNumber_Timer_BOX6">
+          <property name="geometry">
+           <rect>
+            <x>613</x>
+            <y>385</y>
+            <width>64</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="smallDecimalPoint">
+           <bool>false</bool>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_connect_4">
+          <property name="geometry">
+           <rect>
+            <x>1185</x>
+            <y>299</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 209, 115);</string>
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+         <widget class="QLCDNumber" name="lcdNumber_Timer_BOX4">
+          <property name="geometry">
+           <rect>
+            <x>613</x>
+            <y>301</y>
+            <width>64</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="smallDecimalPoint">
+           <bool>false</bool>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_connect_6">
+          <property name="geometry">
+           <rect>
+            <x>1185</x>
+            <y>383</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 209, 115);</string>
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_srport_5">
+          <property name="geometry">
+           <rect>
+            <x>1089</x>
+            <y>342</y>
+            <width>90</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_var3">
+          <property name="geometry">
+           <rect>
+            <x>780</x>
+            <y>259</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>.....</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_subid8">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>53</x>
+            <y>468</y>
+            <width>121</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_upload_8">
+          <property name="geometry">
+           <rect>
+            <x>415</x>
+            <y>465</y>
+            <width>98</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>98</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+         </widget>
+         <widget class="QLCDNumber" name="lcdNumber_Timer_BOX1">
+          <property name="geometry">
+           <rect>
+            <x>613</x>
+            <y>175</y>
+            <width>64</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">selection-background-color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="smallDecimalPoint">
+           <bool>false</bool>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_config_3">
+          <property name="geometry">
+           <rect>
+            <x>1275</x>
+            <y>257</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(241, 78, 255);</string>
+          </property>
+          <property name="text">
+           <string>Config</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Stop1">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>173</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 0);
+border-color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>STOP</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_srport_4">
+          <property name="geometry">
+           <rect>
+            <x>1089</x>
+            <y>300</y>
+            <width>90</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Start2">
+          <property name="geometry">
+           <rect>
+            <x>525</x>
+            <y>215</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(28, 255, 35);</string>
+          </property>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_connect_5">
+          <property name="geometry">
+           <rect>
+            <x>1185</x>
+            <y>341</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 209, 115);</string>
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_var6">
+          <property name="geometry">
+           <rect>
+            <x>780</x>
+            <y>385</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>.....</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_config_7">
+          <property name="geometry">
+           <rect>
+            <x>1275</x>
+            <y>425</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(241, 78, 255);</string>
+          </property>
+          <property name="text">
+           <string>Config</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_connect_2">
+          <property name="geometry">
+           <rect>
+            <x>1185</x>
+            <y>215</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 209, 115);</string>
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+         <widget class="QLCDNumber" name="lcdNumber_Timer_BOX3">
+          <property name="geometry">
+           <rect>
+            <x>613</x>
+            <y>259</y>
+            <width>64</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="smallDecimalPoint">
+           <bool>false</bool>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_config_8">
+          <property name="geometry">
+           <rect>
+            <x>1275</x>
+            <y>467</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(241, 78, 255);</string>
+          </property>
+          <property name="text">
+           <string>Config</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_config_6">
+          <property name="geometry">
+           <rect>
+            <x>1275</x>
+            <y>383</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(241, 78, 255);</string>
+          </property>
+          <property name="text">
+           <string>Config</string>
+          </property>
+         </widget>
+         <widget class="QLCDNumber" name="lcdNumber_Timer_BOX5">
+          <property name="geometry">
+           <rect>
+            <x>613</x>
+            <y>343</y>
+            <width>64</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="smallDecimalPoint">
+           <bool>false</bool>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Start1">
+          <property name="geometry">
+           <rect>
+            <x>525</x>
+            <y>173</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(0, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Stop5">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>341</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>STOP</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_connect_8">
+          <property name="geometry">
+           <rect>
+            <x>1185</x>
+            <y>467</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 209, 115);</string>
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_connect_1">
+          <property name="geometry">
+           <rect>
+            <x>1185</x>
+            <y>173</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 209, 115);</string>
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_config_2">
+          <property name="geometry">
+           <rect>
+            <x>1275</x>
+            <y>215</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(241, 78, 255);</string>
+          </property>
+          <property name="text">
+           <string>Config</string>
+          </property>
+         </widget>
+         <widget class="QLCDNumber" name="lcdNumber_Timer_BOX2">
+          <property name="geometry">
+           <rect>
+            <x>613</x>
+            <y>217</y>
+            <width>64</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="smallDecimalPoint">
+           <bool>false</bool>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_connect_7">
+          <property name="geometry">
+           <rect>
+            <x>1185</x>
+            <y>425</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 209, 115);</string>
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_config_1">
+          <property name="geometry">
+           <rect>
+            <x>1275</x>
+            <y>173</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(241, 78, 255);</string>
+          </property>
+          <property name="text">
+           <string>Config</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_config_4">
+          <property name="geometry">
+           <rect>
+            <x>1275</x>
+            <y>299</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(241, 78, 255);</string>
+          </property>
+          <property name="text">
+           <string>Config</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Stop2">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>215</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>STOP</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_upload_4">
+          <property name="geometry">
+           <rect>
+            <x>415</x>
+            <y>297</y>
+            <width>98</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>98</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_var7">
+          <property name="geometry">
+           <rect>
+            <x>780</x>
+            <y>427</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>.....</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_upload_2">
+          <property name="geometry">
+           <rect>
+            <x>415</x>
+            <y>213</y>
+            <width>98</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>98</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_upload_6">
+          <property name="geometry">
+           <rect>
+            <x>415</x>
+            <y>381</y>
+            <width>98</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>98</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QLCDNumber" name="lcdNumber_Timer_BOX8">
+          <property name="geometry">
+           <rect>
+            <x>613</x>
+            <y>469</y>
+            <width>64</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="smallDecimalPoint">
+           <bool>false</bool>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Flat</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_upload_5">
+          <property name="geometry">
+           <rect>
+            <x>415</x>
+            <y>339</y>
+            <width>98</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>98</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_srport_6">
+          <property name="geometry">
+           <rect>
+            <x>1089</x>
+            <y>384</y>
+            <width>90</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_subid6">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>53</x>
+            <y>384</y>
+            <width>121</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_status_1">
+          <property name="geometry">
+           <rect>
+            <x>836</x>
+            <y>174</y>
+            <width>241</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_status_6">
+          <property name="geometry">
+           <rect>
+            <x>836</x>
+            <y>384</y>
+            <width>241</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_box4">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>306</y>
+            <width>46</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>BOX 00</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_box3">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>264</y>
+            <width>46</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>BOX 00</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_subid7">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>53</x>
+            <y>426</y>
+            <width>121</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label">
+          <property name="geometry">
+           <rect>
+            <x>67</x>
+            <y>142</y>
+            <width>89</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>SUBJECT ID</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_box5">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>348</y>
+            <width>46</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>BOX 00</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_status_5">
+          <property name="geometry">
+           <rect>
+            <x>836</x>
+            <y>342</y>
+            <width>241</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_subid2">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>53</x>
+            <y>216</y>
+            <width>121</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_box6">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>390</y>
+            <width>46</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>BOX 00</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_subid3">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>53</x>
+            <y>258</y>
+            <width>121</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_box7">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>432</y>
+            <width>46</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>BOX 00</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_box1">
+          <property name="geometry">
+           <rect>
+            <x>1</x>
+            <y>180</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>BOX 00</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>928</x>
+            <y>143</y>
+            <width>48</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Status</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_config_5">
+          <property name="geometry">
+           <rect>
+            <x>1275</x>
+            <y>341</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(241, 78, 255);</string>
+          </property>
+          <property name="text">
+           <string>Config</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_subid4">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>53</x>
+            <y>300</y>
+            <width>121</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Stop7">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>425</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>STOP</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Upload_all">
+          <property name="geometry">
+           <rect>
+            <x>413</x>
+            <y>507</y>
+            <width>101</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload All</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_task7">
+          <property name="geometry">
+           <rect>
+            <x>179</x>
+            <y>426</y>
+            <width>221</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>188</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Connect_all">
+          <property name="geometry">
+           <rect>
+            <x>1179</x>
+            <y>507</y>
+            <width>91</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 209, 115);</string>
+          </property>
+          <property name="text">
+           <string>Connect All</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_var5">
+          <property name="geometry">
+           <rect>
+            <x>780</x>
+            <y>343</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>.....</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_task3">
+          <property name="geometry">
+           <rect>
+            <x>179</x>
+            <y>258</y>
+            <width>221</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>188</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_var4">
+          <property name="geometry">
+           <rect>
+            <x>780</x>
+            <y>301</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>.....</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_task2">
+          <property name="geometry">
+           <rect>
+            <x>179</x>
+            <y>216</y>
+            <width>221</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>188</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Stop3">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>257</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>STOP</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_task8">
+          <property name="geometry">
+           <rect>
+            <x>179</x>
+            <y>468</y>
+            <width>221</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>188</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_task6">
+          <property name="geometry">
+           <rect>
+            <x>179</x>
+            <y>384</y>
+            <width>221</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>188</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_task4">
+          <property name="geometry">
+           <rect>
+            <x>179</x>
+            <y>300</y>
+            <width>221</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>188</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_upload_1">
+          <property name="geometry">
+           <rect>
+            <x>415</x>
+            <y>171</y>
+            <width>98</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>98</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_task">
+          <property name="geometry">
+           <rect>
+            <x>270</x>
+            <y>142</y>
+            <width>39</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>TASK</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_upload_7">
+          <property name="geometry">
+           <rect>
+            <x>415</x>
+            <y>423</y>
+            <width>98</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>98</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_3">
+          <property name="geometry">
+           <rect>
+            <x>1089</x>
+            <y>142</y>
+            <width>81</width>
+            <height>18</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Serial Port</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Start6">
+          <property name="geometry">
+           <rect>
+            <x>525</x>
+            <y>383</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(28, 255, 35);</string>
+          </property>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_var2">
+          <property name="geometry">
+           <rect>
+            <x>780</x>
+            <y>217</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>.....</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_status_2">
+          <property name="geometry">
+           <rect>
+            <x>836</x>
+            <y>216</y>
+            <width>241</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_srport_2">
+          <property name="geometry">
+           <rect>
+            <x>1089</x>
+            <y>216</y>
+            <width>90</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_upload_3">
+          <property name="geometry">
+           <rect>
+            <x>415</x>
+            <y>255</y>
+            <width>98</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>98</width>
+            <height>31</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_status_7">
+          <property name="geometry">
+           <rect>
+            <x>836</x>
+            <y>426</y>
+            <width>241</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_srport_3">
+          <property name="geometry">
+           <rect>
+            <x>1089</x>
+            <y>258</y>
+            <width>90</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_var1">
+          <property name="geometry">
+           <rect>
+            <x>780</x>
+            <y>175</y>
+            <width>41</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border-color: rgb(0, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>.....</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Stop_all">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>507</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Stop All</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_task5">
+          <property name="geometry">
+           <rect>
+            <x>179</x>
+            <y>342</y>
+            <width>221</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>188</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Stop8">
+          <property name="geometry">
+           <rect>
+            <x>690</x>
+            <y>467</y>
+            <width>75</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>STOP</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Start_all">
+          <property name="geometry">
+           <rect>
+            <x>525</x>
+            <y>507</y>
+            <width>121</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(0, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Record All</string>
+          </property>
+         </widget>
+         <widget class="QComboBox" name="comboBox_task_multibox">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>604</y>
+            <width>371</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>188</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_6">
+          <property name="geometry">
+           <rect>
+            <x>62</x>
+            <y>557</y>
+            <width>491</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Select and Upload task for multiple Connected Boxes</string>
+          </property>
+         </widget>
+         <widget class="Line" name="line_3">
+          <property name="geometry">
+           <rect>
+            <x>528</x>
+            <y>581</y>
+            <width>91</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_5">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>569</y>
+            <width>51</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_6">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>644</y>
+            <width>571</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="Line" name="line_7">
+          <property name="geometry">
+           <rect>
+            <x>500</x>
+            <y>569</y>
+            <width>71</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_Upload_multibox">
+          <property name="geometry">
+           <rect>
+            <x>413</x>
+            <y>604</y>
+            <width>112</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(170, 255, 0);</string>
+          </property>
+          <property name="text">
+           <string>Upload</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="resettable">
+          <property name="geometry">
+           <rect>
+            <x>950</x>
+            <y>589</y>
+            <width>120</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Reset Table</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="exportdata">
+          <property name="geometry">
+           <rect>
+            <x>620</x>
+            <y>590</y>
+            <width>121</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Export Data</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_config_all">
+          <property name="geometry">
+           <rect>
+            <x>1200</x>
+            <y>590</y>
+            <width>101</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(241, 78, 255);</string>
+          </property>
+          <property name="text">
+           <string>Config All</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="tab_4">
+         <attribute name="title">
+          <string>Data</string>
+         </attribute>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QTableWidget" name="tableWidget">
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string/>
+             </property>
+            </row>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Exportdata2">
+            <property name="text">
+             <string>Export DATA</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
