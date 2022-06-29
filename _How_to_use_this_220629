@@ -1,0 +1,19 @@
+# Conte_MIA_5choice_private
+*sharing latest versions of behavior data processing and visualization pipelines*
+
+*Created by Kyle Ireton on June 29th, 2022*
+
+This is for Connor to use the necessary pipelines for transforming raw data into visualizations and analysis
+
+
+**1. Data Processing Pipeline**
+
+  This converts raw data .csv's into one master processed data .csv which can be analyzed
+  
+**2. Progress Pipeline**
+
+  This is a quick visualization process to track progress within and between stages, to keep track of promotions and graduation
+  
+**3. Visualization Pipeline**
+
+  This generates figure-form visualizations and statistical analyses for use when it comes time to publish.
