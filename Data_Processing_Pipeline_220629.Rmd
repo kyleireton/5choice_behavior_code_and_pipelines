@@ -1,0 +1,604 @@
+---
+  title: "5-choice read in training"
+output:
+  html_document:
+  df_print: paged
+html_notebook:
+  fig_height: 8
+---
+
+Reading in training
+  
+CURRENT AS OF:
+
+*June 29th, 2022*
+
+*UPDATE CURRENT DAY / OLD DAY IF YOU WANT TO ADD JUST ONE DAY OF NEW DATA, OR READ IN ALL TRAINING RUNS FROM HOME FOLDER*
+
+This chunk will read in the libraries and functions we need
+
+```{r, include=FALSE}
+
+library(readr)
+library(dplyr)
+library(stringr)
+library(magrittr)
+library(tidyr)
+library(ggplot2)
+library(purrr)
+
+read_plus = function(x) {
+  read_csv(x,
+           col_types = list(col_double(),
+                            col_character(),
+                            col_character())
+           ) %>% 
+    mutate(filename = x)
+}
+
+read_plus_skip1 = function(x) {
+  read_csv(x, skip = 1) %>% 
+    mutate(filename = x)
+}
+
+get_RT = function(x) {
+  ifelse(str_detect(x,"latency"),
+         as.numeric(paste(str_extract(x, "[^latency: ]+$"), sep = ""))/1000,
+         NA)
+}
+
+st.err = function(x) {
+  sd(x)/sqrt(length(x))
+}
+
+get_CV = function(x) {
+  sd(x) / mean(x)
+}
+```
+
+
+This chunk lists all the files in the folder we designate, and combines them into a single dataframe
+
+```{r read in files}
+listruns =
+  
+  list.files(path="FILEPATH TO NEW DATA, CURRENT DAY OR ALL DATA",
+                                recursive = T,
+             
+                                 pattern = "*.csv",
+             
+                              full.names = T) %>%
+  
+  map_df(~ read_plus(.))
+```
+
+If we need to combine columns, this lets us do that
+
+designate columns k1, k2, or k3 as needed
+
+coalesce() combines them, replacing NAs with real values
+
+```{r , message=FALSE, results=FALSE, include=FALSE}
+
+selectdata_df = listruns %>%
+  
+  select(-"0") %>%
+  
+  rename(Time_ms = "experiment name:",
+         k1 = kyle,
+         k2 = Kyle,
+         k3 = X3
+         ) %>%
+  
+  mutate(Kyle = coalesce(k1, k2, k3)) %>%
+  
+  select(-k1, -k2, -k3,
+         
+         filename, Time_ms, Kyle)
+
+```
+
+
+Now, we will pull out what stage of training the animals are in, and their unique ID
+
+```{r , message=FALSE, results=FALSE, include=FALSE}
+
+datastage_set = selectdata_df %>% 
+  
+  group_by(filename) %>%
+  
+  mutate(
+  
+    Task = substr(Kyle[c(1)], 1, 11),
+    
+    Stage = case_when(
+      
+      str_detect(Task, "habituation") ~ -1,
+      str_detect(Task, "Stage_0") ~ 0,
+      str_detect(Task, "Stage_1") ~ 1,
+      str_detect(Task, "Stage_2") ~ 2,
+      str_detect(Task, "Stage_3") ~ 3,
+      str_detect(Task, "Stage_4") ~ 4,
+      str_detect(Task, "Stage_5") ~ 5,
+      str_detect(Task, "Stage_6") ~ 6
+      
+    ),
+    
+    Date = substr(Kyle[c(4)], 1, 10),
+    
+    Box = substr(Kyle[c(1)], 1, 1),
+    
+    ID = Kyle[c(2)])
+
+```
+
+
+Now we will convert time to minutes from ms, and get rid of "NA" rows too.
+
+```{r , message=FALSE, results=FALSE, include=FALSE}
+datastage_new = datastage_set %>% 
+  
+  transmute( 
+    
+    Task = Task,
+    
+    Stage = Stage,
+    
+    Date = Date,
+    
+    Box = Box,
+    
+    ID = ID,
+    
+    Timestamp = as.numeric(paste(Time_ms))/60000,
+    
+    Kyle = Kyle
+  
+    ) %>% ungroup() 
+
+datastage_new = na.omit(datastage_new)
+
+```
+
+```{r}
+
+# datastage_old = read_csv("FILEPATH TO OLD DATA, IF ADDING NEW DATA TO OLD")
+
+datastage = rbind(
+  # datastage_old,
+  datastage_new
+)
+
+write_csv(datastage, "FILEPATH AND NAME FOR RAW .CSV OUTPUT, OF ALL NEW DATA + OLD IF COMBINING")
+
+```
+
+For reward only phase: get correct, RT, RL for all
+
+```{r}
+
+Stage0_only = datastage %>%
+  
+  group_by(filename) %>%
+  
+  filter(Stage == 0) %>%
+  
+  filter(
+    str_detect(Kyle, "taste_task")|
+    str_detect(Kyle, "^poke_[1-6]$")|
+    str_detect(Kyle, "Perseveration")|
+    str_detect(Kyle, "Correct_response")|
+    str_detect(Kyle, "Reward_taken")
+         ) %>%
+  
+  mutate(Target = 6)
+
+Stage0_correct = Stage0_only %>%
+  filter(
+    str_detect(Kyle, "taste_task")|
+    str_detect(Kyle, "^poke_[1-5]$")|
+    str_detect(Kyle, "Correct_response")|
+    str_detect(Kyle, "Reward_taken")
+  ) %>%
+  mutate(
+    Response = case_when(
+      Kyle == "Correct_response" ~ "Correct"),
+    Poke = case_when(
+      Response == "Correct" ~ substr(dplyr::lag(Kyle, n=1, default = NA), 6, 6))
+    )
+
+Stage0_correct_RT = Stage0_correct %>%
+  filter(Response == "Correct"|
+           Kyle == "taste_task") %>%
+  group_by(filename) %>%
+  arrange(filename, Timestamp) %>%
+  mutate(RT = Timestamp - dplyr::lag(Timestamp, n=1, default = NA)) %>%
+  filter(Response == "Correct")
+
+
+Stage0_correct_RL = Stage0_correct %>%
+  filter(Response == "Correct"|
+           str_detect(Kyle, "Reward_taken")) %>%
+  group_by(filename) %>%
+  arrange(filename, Timestamp) %>%
+  mutate(Response = case_when(
+            Kyle == "Reward_taken" ~ "Reward"
+              ),
+         RT = Timestamp - dplyr::lag(Timestamp, n=1, default = NA)) %>%
+  filter(Response == "Reward")
+
+
+Stage0_correct_RT_RL = rbind(
+  Stage0_correct_RT,
+  Stage0_correct_RL
+) %>%
+  group_by(filename) %>%
+  arrange(filename, Timestamp) %>%
+  mutate(RL = dplyr::lead(RT, n=1, default = NA),
+         Port = Poke,
+         Target = 6) %>%
+  filter(Response == "Correct") %>%
+  select(-Poke, -Kyle) %>%
+  ungroup()
+
+
+```
+
+
+```{r }
+# Pre staging rip -------------------------------------------------------------
+
+Master_df_response = datastage %>% 
+  
+  filter(Stage > 0) %>% 
+  
+  group_by(filename) %>% 
+  
+  filter(str_detect(Kyle, "^poke_[1-6]$")|
+           
+           str_detect(Kyle, "Light")|
+           str_detect(Kyle, "Correct_latency")|
+           str_detect(Kyle, "Reward_latency")|
+           
+           str_detect(Kyle, "Incorrect_response")|
+           str_detect(Kyle, "Incorrect_latency")|
+           str_detect(Kyle, "Omission")|
+           
+           str_detect(Kyle, "ITI$")|
+           str_detect(Kyle, "Premature_response")|
+           str_detect(Kyle, "Premature_latency")|
+           str_detect(Kyle, "Perseveration")|
+           str_detect(Kyle, "Timeout_poke")
+  )
+```
+
+
+```{r }
+Master_df_quickrip = Master_df_response %>% 
+  
+  filter(Kyle != "Incorrect_response") %>% 
+  
+  mutate(
+    
+    Poke = ifelse(str_detect(Kyle, "^poke_[1-6]$"),
+                  substr(Kyle, 6, 6),
+                  NA),
+    
+    Light = ifelse(str_detect(Kyle, "^Light[1-5]$"),
+                   substr(Kyle, 6, 6),
+                   NA),
+    
+    Latency = get_RT(Kyle)
+  )
+
+```
+
+```{r , message=FALSE, include= FALSE}
+
+Master_df_target = Master_df_quickrip %>% 
+  
+  filter(str_detect(Kyle, "poke_[1-5]")|
+           !is.na(Light)|
+           str_detect(Kyle, "Omission|Incorrect|Reward")) %>% 
+  
+  group_by(filename) %>% 
+  
+  arrange(filename, Timestamp) %>% 
+  
+  mutate(
+    
+    Response = case_when(
+      
+      Light == dplyr::lead(Poke, n=1, default = NA) ~ "Correct",
+      
+      Light != dplyr::lead(Poke, n=1, default = NA) ~ "Incorrect",
+      
+      dplyr::lead(Kyle, n=1, default = NA) == "Omission" ~ "Omission"
+    
+      ),
+    
+    RT = case_when(
+      
+      Response == "Correct" ~ dplyr::lead(Timestamp, n=1, default = NA) - Timestamp,
+      
+      Response == "Incorrect" ~ dplyr::lead(Timestamp, n=1, default = NA) - Timestamp,
+      
+      Response == "Omission" ~ 0
+      
+      ),
+    
+    Target = Light,
+    
+    Port = case_when(
+      
+      Response == "Correct"|
+        Response == "Incorrect" ~ as.numeric(dplyr::lead(Poke, n=1, default = NA)),
+      
+      Response == "Omission" ~ 0
+      )
+    ) %>%
+  
+  filter(Response == "Correct"|
+           Response == "Incorrect"|
+           Response == "Omission") %>% 
+  
+  select(-Kyle, -Poke, -Light, -Latency) %>%
+  
+  ungroup()
+
+```
+
+```{r , message=FALSE, include= FALSE}
+
+Master_df_RL = Master_df_quickrip %>% 
+  
+  filter(!is.na(Light)|
+           str_detect(Kyle, "Reward")) %>% 
+  
+  group_by(filename) %>% 
+  
+  arrange(filename, Timestamp) %>% 
+  
+  mutate(
+    
+    Reward = dplyr::lead(Kyle, n=1),
+    
+    Response = substr(Reward, 1, 6),
+    
+    RT = get_RT(Reward),
+    
+    Target = Light,
+    
+    Port = 6
+    
+    ) %>% 
+  
+  filter(!is.na(Target),
+         str_detect(Response, "Reward")) %>% 
+  
+  select(-Kyle, -Poke, -Light, -Latency,
+         -Reward) %>%
+  
+  ungroup()
+
+```
+
+```{r , message=FALSE, include= FALSE}
+
+Master_df_Correct_RL = rbind(
+  
+  Master_df_target,
+  Master_df_RL
+  
+  ) %>%
+  
+  group_by(filename) %>%
+  
+  arrange(filename, Timestamp) %>%
+  
+  mutate(RL = case_when(
+    
+    dplyr::lead(Response, n=1) == "Reward" ~ dplyr::lead(RT),
+    
+    dplyr::lead(Response, n=1) != "Reward" ~ 0
+    
+    )
+    ) %>%
+  
+  filter(Response != "Reward") %>%
+  
+  ungroup()
+
+```
+
+```{r , message=FALSE, include= FALSE}
+
+Master_df_persev = Master_df_quickrip %>% 
+  
+  filter(str_detect(Kyle, "poke_[1-5]")|
+           str_detect(Kyle, "Perseveration")) %>% 
+  
+  
+  group_by(filename) %>% 
+  
+  arrange(filename, Timestamp) %>% 
+  
+  mutate(
+    
+    Response = case_when(
+      
+      Kyle == "Perseveration" ~ "Perseverative"
+      
+      ),
+    
+    RT = 0,
+    
+    Target = 0,
+    
+    Port = case_when(
+      
+      Response == "Perseverative" ~ as.numeric(dplyr::lag(Poke, n=1, default = NA))
+      
+      ),
+    
+    RL = 0
+    ) %>%
+  
+  filter(Response == "Perseverative") %>% 
+  
+  select(-Kyle, -Poke, -Light, -Latency) %>%
+  
+  ungroup()
+
+```
+
+
+```{r , message=FALSE, include= FALSE}
+
+Master_df_timeout = Master_df_quickrip %>%
+  
+  filter(str_detect(Kyle, "poke_[1-5]")|
+           str_detect(Kyle, "Timeout")) %>%
+  
+  group_by(filename) %>% 
+  
+  arrange(filename, Timestamp) %>%
+  
+  mutate(
+    
+    Response = case_when(
+      
+      Kyle == "Timeout_poke" ~ "Timeout"
+      
+      ),
+    
+    RT = 0,
+    
+    Target = 0,
+    
+    Port = case_when(
+      
+      Response == "Timeout" ~ as.numeric(dplyr::lag(Poke, n=1, default = NA))
+      
+      ),
+    
+    RL = 0
+    ) %>%
+  
+  filter(Response == "Timeout") %>%
+  
+  select(-Kyle, -Poke, -Light, -Latency) %>%
+  
+  ungroup() 
+
+```
+
+
+```{r , message=FALSE, include= FALSE}
+
+datastageset = Master_df_quickrip %>% 
+  
+  filter(str_detect(Kyle, "ITI")|
+           str_detect(Kyle, "poke_[1-5]")|
+           str_detect(Kyle, "Premature_response")) %>% 
+  
+  group_by(filename) %>% 
+  
+  arrange(filename, Timestamp) %>% 
+  
+  mutate(
+    
+    Response = case_when(
+      
+      Kyle == "ITI" & dplyr::lead(Kyle, n=2) == "Premature_response" ~ "Premature"
+    
+      ),
+    
+    RT = case_when(
+      
+      Response == "Premature" ~ dplyr::lead(Timestamp, n=2) - Timestamp,
+    
+      ),
+    
+    Target = 0,
+    
+    Port = case_when(
+      
+      Response == "Premature" ~ as.numeric(dplyr::lead(Poke, n=1, default = NA))
+    
+      ),
+    
+    RL = 0
+  
+    ) %>% 
+  
+  filter(Response == "Premature") %>% 
+  
+  select(-Kyle, -Poke, -Light, -Latency) %>% 
+  
+  ungroup()
+
+```
+
+
+```{r , message=FALSE}
+
+Master_df_flex = rbind(
+  
+  Stage0_correct_RT_RL, # adding in for Reward phase correct pokes
+  
+  Master_df_Correct_RL,
+  
+  Master_df_persev,
+  
+  Master_df_timeout,
+  
+  datastageset
+  
+    ) %>% 
+  
+  arrange(filename, Timestamp) %>%
+  
+  group_by(ID) %>% 
+  
+  mutate(Session_all = match(Date, unique(Date))) %>%
+  
+  ungroup() %>% 
+
+  group_by(Stage, ID) %>% 
+    
+  mutate(Session = match(Date, unique(Date))) %>%
+    
+  ungroup() %>%
+  
+  group_by(Stage, ID, Date) %>%
+  
+  mutate(
+    
+    Trial_case = case_when(
+      
+      Target > 0 ~ 1,
+      
+      Target == 0 ~ 0
+      
+    ),
+    
+    Trials = cumsum(Trial_case)
+    
+  ) %>% 
+  
+  ungroup() %>% 
+  
+  select(Task, Stage, Date, Session_all, Session, ID,
+         
+         Timestamp, Response, Trials,
+         
+         Port, Target, RT, RL, filename,
+         
+         -Box, -Trial_case)
+
+write_csv(Master_df_flex,
+          
+        "FILEPATH AND NAME OF .CSV FOR PROCESSED DATA, AFTER PROCESSING THE RAW.CSV FILE")
+
+```
