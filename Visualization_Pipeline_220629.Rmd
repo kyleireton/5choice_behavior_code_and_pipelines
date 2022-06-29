@@ -1,0 +1,3986 @@
+---
+title: "5-choice training visualizations and analysis"
+output: html_notebook
+---
+
+*Current as of June 29th, 2022*
+
+# libraries and functions
+
+read in libraries and functions
+
+```{r}
+
+library(readr)
+library(dplyr)
+library(stringr)
+library(magrittr)
+library(tidyr)
+library(ggplot2)
+library(purrr)
+
+library(ggrepel)
+
+index <- function(x){
+  as.integer(row.names(x))
+}
+
+```
+
+
+
+# read in data, and ID descriptions
+
+```{r}
+train = read_csv("PROCESSED DATA FILEPATH GOES HERE") %>% 
+  
+  mutate(
+    
+    Litter = case_when(),
+    
+    Sex = case_when(),
+    
+    Group = case_when()
+    
+  ) 
+
+```
+
+```{r}
+
+train$ID <- factor(train$ID, levels = c())
+
+```
+
+# overall training progress by sex
+
+```{r, fig.width=15, fig.height=8}
+
+ggplot(train %>% 
+         
+         group_by(Group, Sex, Stage, ID, Session_all) %>% 
+         
+         summarise(n = n()),
+
+       aes(Session_all,
+           
+           as.integer(Stage),
+           
+           fill = Group
+           
+           )) +
+  
+  facet_wrap(~ Sex) +
+
+  geom_jitter(aes(color = Group),
+              height = 0.1,
+              width = 0.1) +
+
+  stat_summary(aes(fill = Group),
+               fun = "mean", geom = "line",
+               size = 1) +
+
+  stat_summary(fun.data = "mean_se", geom = "ribbon",
+               alpha = 0.25) +
+  
+  scale_y_continuous(breaks = seq(0, 6, by = 1)) +
+  
+  # scale_color_manual(values = c("dodgerblue", "orange", "green2"))+
+  #scale_fill_manual(values = c("dodgerblue", "orange", "green"))+
+
+  ggtitle("Progress across training stages") +
+  ylab("Stage of Training") +
+  xlab("Day of Training") +
+
+  theme_classic(base_size=22) +
+  
+  theme(axis.text = element_text(size = 14),
+        strip.text.x = element_text(size = 16),
+        title = element_text(size = 16)
+        )
+
+```
+
+# overall training progress
+
+```{r, fig.width=15, fig.height=8}
+
+ggplot(train %>% 
+         
+         group_by(Group, Sex, Stage, ID, Session_all) %>% 
+         
+         summarise(n = n()),
+
+       aes(Session_all,
+           
+           as.integer(Stage),
+           
+           fill = Group
+           
+           )) +
+  
+  # facet_wrap(~ Sex) +
+
+  geom_jitter(aes(color = Group),
+              height = 0.1,
+              width = 0.1) +
+
+  stat_summary(aes(fill = Group),
+               fun = "mean", geom = "line",
+               size = 1) +
+
+  stat_summary(fun.data = "mean_se", geom = "ribbon",
+               alpha = 0.25) +
+  
+  scale_y_continuous(breaks = seq(0, 6, by = 1)) +
+  
+  # scale_color_manual(values = c("dodgerblue", "orange", "green2"))+
+  #scale_fill_manual(values = c("dodgerblue", "orange", "green"))+
+
+  ggtitle("Progress across training stages") +
+  ylab("Stage of Training") +
+  xlab("Day of Training") +
+
+  theme_classic(base_size=22) +
+  
+  theme(axis.text = element_text(size = 14),
+        strip.text.x = element_text(size = 16),
+        title = element_text(size = 16)
+        )
+
+```
+
+
+# Stage 0 last day (peak performance measures)
+
+```{r}
+
+stage0 = train %>% 
+  
+  filter(Stage == 0)
+
+```
+
+```{r}
+
+stage0sum = stage0 %>% 
+  
+  group_by(Group, Sex, ID, Date) %>% 
+  
+  summarise(Days = n()) %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(Days = n())
+
+```
+
+
+```{r}
+
+ggplot(stage0sum,
+       
+  aes(Group,
+      
+      Days,
+      
+     color = Group,
+      
+      fill = Group,
+      
+      label = ID)) +
+  
+  geom_text_repel() + 
+  
+  geom_point(position = position_jitter(seed = 1,
+                                       
+                                       width = 0.1,
+                                       
+                                       height = 0.1)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1) +
+  
+  # #scale_color_manual(values = c("blue", "red")) +
+
+  theme_classic(base_size=22)
+
+```
+
+```{r}
+t.test(Days ~ Group,
+       
+       stage0sum)
+```
+
+
+```{r}
+ggplot(stage0 %>%
+         
+         group_by(ID) %>% 
+         
+         filter(Date == last(Date)) %>% 
+         
+         ungroup() %>% 
+         
+         group_by(Group, Sex, ID) %>% 
+         
+         summarise(Correct = sum(Response == "Correct")),
+  
+  aes(Group,
+      
+      Correct,
+      
+     color = Group,
+      
+      fill = Group,
+      
+      label = ID)) +
+  
+  geom_text_repel() + 
+  
+  geom_point(position = position_jitter(seed = 1,
+                                       
+                                       width = 0.1,
+                                       
+                                       height = 0.1)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1) +
+  
+  #scale_color_manual(values = c("blue", "red")) +
+
+  theme_classic(base_size=22)
+
+
+```
+
+```{r}
+
+t.test(Correct ~ Group,
+       
+       stage0 %>%
+         
+         group_by(ID) %>% 
+         
+         filter(Date == last(Date)) %>% 
+         
+         ungroup() %>% 
+         
+         group_by(Group, Sex, ID) %>% 
+         
+         summarise(Correct = sum(Response == "Correct")))
+
+```
+
+
+```{r}
+
+ggplot(stage0 %>%
+         
+         group_by(ID) %>% 
+         
+         filter(Date == last(Date)) %>% 
+         
+         ungroup() %>% 
+         
+         group_by(Group, Sex, ID) %>% 
+         
+         summarise(meanRT = mean(RT)),
+  
+  aes(Group,
+      
+      meanRT*60,
+      
+     color = Group,
+      
+      fill = Group,
+      
+      label = ID)) +
+  
+  geom_text_repel() + 
+  
+  geom_point(position = position_jitter(seed = 1,
+                                       
+                                       width = 0.1,
+                                       
+                                       height = 0.1)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1) +
+  
+  #scale_color_manual(values = c("blue", "red")) +
+
+  theme_classic(base_size=22)
+
+
+```
+
+```{r}
+t.test(meanRT ~ Group,
+       
+       stage0 %>%
+         
+         group_by(ID) %>% 
+         
+         filter(Date == last(Date)) %>% 
+         
+         ungroup() %>% 
+         
+         group_by(Group, Sex, ID) %>% 
+         
+         summarise(meanRT = mean(RT)))
+```
+
+
+```{r}
+
+ggplot(stage0 %>%
+         
+         group_by(ID) %>% 
+         
+         filter(Date == last(Date)) %>% 
+         
+         ungroup() %>% 
+         
+         group_by(Group, Sex, ID) %>% 
+         
+         summarise(meanRL = mean(na.omit(RL))),
+  
+  aes(Group,
+      
+      meanRL*60,
+      
+     color = Group,
+      
+      fill = Group,
+      
+      label = ID)) +
+  
+  geom_text_repel() + 
+  
+  geom_point(position = position_jitter(seed = 1,
+                                       
+                                       width = 0.1,
+                                       
+                                       height = 0.1)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1) +
+  
+  #scale_color_manual(values = c("blue", "red")) +
+
+  theme_classic(base_size=22)
+
+
+```
+
+```{r}
+
+t.test(meanRL ~ Group, 
+       
+       stage0 %>%
+         
+         group_by(ID) %>% 
+         
+         filter(Date == last(Date)) %>% 
+         
+         ungroup() %>% 
+         
+         group_by(Group, Sex, ID) %>% 
+         
+         summarise(meanRL = mean(na.omit(RL))))
+
+```
+
+
+# Stage 1 first v last day
+
+```{r}
+
+stage1 = train %>% 
+  
+  filter(Stage == 1)
+
+```
+
+```{r}
+
+stage1sum = stage1 %>% 
+  
+    group_by(Group, Sex, ID, Date) %>% 
+  
+  summarise(Days = n()) %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(Days = n())
+
+```
+
+
+```{r}
+
+ggplot(stage1sum,
+       
+  aes(Group,
+      
+      Days,
+      
+     color = Group,
+      
+      fill = Group,
+      
+      label = ID)) +
+  
+  geom_text_repel() + 
+  
+  geom_point(position = position_jitter(seed = 1,
+                                       
+                                       width = 0.1,
+                                       
+                                       height = 0.1)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1) +
+  
+  # #scale_color_manual(values = c("blue", "red")) +
+
+  theme_classic(base_size=22)
+
+```
+
+```{r}
+
+t.test(Days ~ Group,
+       
+       stage1sum)
+
+```
+
+
+```{r}
+
+stage1first = stage1 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == first(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+stage1last = stage1 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == last(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+```
+
+Let's check 1st day parameters? 
+
+```{r}
+
+stage1first_param = stage1first %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage1first_param)
+
+```
+
+Let's plot day 1 params
+
+```{r, fig.width=10}
+
+stage1first_param_piv = stage1first_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage1first_param_piv$name = factor(stage1first_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Timeouts", "Perseveratives"))
+
+head(stage1first_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage1first_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 1, First Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+Let's check last day parameters? 
+
+```{r}
+
+stage1last_param = stage1last %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage1last_param)
+
+```
+
+Let's plot day 1 params
+
+```{r, fig.width=10}
+
+stage1last_param_piv = stage1last_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage1last_param_piv$name = factor(stage1last_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Timeouts", "Perseveratives"))
+
+head(stage1last_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage1last_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 1, Last Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+# Stage 1: net change
+
+```{r}
+
+stage1.net = rbind(
+  
+  (stage1first_param_piv %>% mutate(Day = "First")),
+  
+  (stage1last_param_piv %>% mutate(Day = "Last"))
+  
+)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage1.net,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("Stage 1: Change from first to last day") +
+  xlab("Day") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage1.net %>% 
+              
+              filter(name == "Correct")))
+
+```
+
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage1.net %>% 
+              
+              filter(name == "Omissions")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage1.net %>% 
+              
+              filter(name == "Accuracy")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage1.net %>% 
+              
+              filter(name == "Prematures")))
+
+```
+
+```{r}
+
+# summary(aov(value ~ (Group*Day) + Error(ID),
+#             
+#             stage1.net %>% 
+#               
+#               filter(name == "Timeouts")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage1.net %>% 
+              
+              filter(name == "Perseveratives")))
+
+```
+
+# Stage1 RT, CV, RL
+
+```{r}
+
+stage1first.RT = stage1first %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT))*10,
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+  
+  mutate(Day = "First")
+
+head(stage1first.RT)
+
+```
+
+```{r}
+
+stage1last.RT = stage1last %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT))*10,
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+
+  mutate(Day = "Last")
+
+head(stage1first.RT)
+
+```
+
+```{r}
+
+stage1.net.RT = rbind(
+  
+  stage1first.RT,
+  
+  stage1last.RT
+
+  )
+
+stage1.net.RT$name = factor(stage1.net.RT$name, 
+                                     
+                                     levels = c("RT.mean", "CV", "RL"))
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage1.net.RT,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("Stage1: Change from first to last day") +
+  xlab("Day") +
+  ylab("Value") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage1.net.RT %>% 
+              
+              filter(name == "RT.mean")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage1.net.RT %>% 
+              
+              filter(name == "CV")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage1.net.RT %>% 
+              
+              filter(name == "RL")))
+
+
+```
+
+# Stage 2 first v last day
+
+```{r}
+
+stage2 = train %>% 
+  
+  filter(Stage == 2)
+
+```
+
+```{r}
+
+stage2sum = stage2 %>% 
+  
+    group_by(Group, Sex, ID, Date) %>% 
+  
+  summarise(Days = n()) %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(Days = n())
+
+```
+
+
+```{r}
+
+ggplot(stage2sum,
+       
+  aes(Group,
+      
+      Days,
+      
+     color = Group,
+      
+      fill = Group,
+      
+      label = ID)) +
+  
+  geom_text_repel() + 
+  
+  geom_point(position = position_jitter(seed = 1,
+                                       
+                                       width = 0.1,
+                                       
+                                       height = 0.1)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1) +
+  
+  # #scale_color_manual(values = c("blue", "red")) +
+
+  theme_classic(base_size=22)
+
+```
+
+```{r}
+t.test(Days ~ Group,
+       
+       stage2sum)
+```
+
+
+```{r}
+
+stage2first = stage2 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == first(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+stage2last = stage2 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == last(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+```
+
+Let's check 1st day parameters? 
+
+```{r}
+
+stage2first_param = stage2first %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage2first_param)
+
+```
+
+Let's plot day 1 params
+
+```{r, fig.width=10}
+
+stage2first_param_piv = stage2first_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage2first_param_piv$name = factor(stage2first_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Perseveratives", "Timeouts"))
+
+head(stage2first_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage2first_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 2, First Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+Let's check last day parameters? 
+
+```{r}
+
+stage2last_param = stage2last %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage2last_param)
+
+```
+
+Let's plot day 2 params
+
+```{r, fig.width=10}
+
+stage2last_param_piv = stage2last_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage2last_param_piv$name = factor(stage2last_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Perseveratives", "Timeouts"))
+
+head(stage2last_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage2last_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 2, Last Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+# Stage 2: net change
+
+```{r}
+
+stage2.net = rbind(
+  
+  (stage2first_param_piv %>% mutate(Day = "First")),
+  
+  (stage2last_param_piv %>% mutate(Day = "Last"))
+  
+)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage2.net,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("Stage 2: Change from first to last day") +
+  xlab("Day") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage2.net %>% 
+              
+              filter(name == "Correct")))
+
+```
+
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage2.net %>% 
+              
+              filter(name == "Omissions")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage2.net %>% 
+              
+              filter(name == "Accuracy")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage2.net %>% 
+              
+              filter(name == "Prematures")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+
+            stage2.net %>%
+
+              filter(name == "Timeouts")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage2.net %>% 
+              
+              filter(name == "Perseveratives")))
+
+```
+
+# stage2 RT, CV, RL
+
+```{r}
+
+stage2first.RT = stage2first %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT))*10,
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+  
+  mutate(Day = "First")
+
+head(stage2first.RT)
+
+```
+
+```{r}
+
+stage2last.RT = stage2last %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT))*10,
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+
+  mutate(Day = "Last")
+
+head(stage2first.RT)
+
+```
+
+```{r}
+
+stage2.net.RT = rbind(
+  
+  stage2first.RT,
+  
+  stage2last.RT
+
+  )
+
+stage2.net.RT$name = factor(stage2.net.RT$name, 
+                                     
+                                     levels = c("RT.mean", "CV", "RL"))
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage2.net.RT,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("stage2: Change from first to last day") +
+  xlab("Day") +
+  ylab("Value") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage2.net.RT %>% 
+              
+              filter(name == "RT.mean")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage2.net.RT %>% 
+              
+              filter(name == "CV")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage2.net.RT %>% 
+              
+              filter(name == "RL")))
+
+
+```
+
+
+# Stage 3 first v last day
+
+```{r}
+
+stage3 = train %>% 
+  
+  filter(Stage == 3)
+
+```
+
+```{r}
+
+stage3sum = stage3 %>% 
+  
+    group_by(Group, Sex, ID, Date) %>% 
+  
+  summarise(Days = n()) %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(Days = n())
+
+```
+
+
+```{r}
+
+ggplot(stage3sum,
+       
+  aes(Group,
+      
+      Days,
+      
+     color = Group,
+      
+      fill = Group,
+      
+      label = ID)) +
+  
+  geom_text_repel() + 
+  
+  geom_point(position = position_jitter(seed = 1,
+                                       
+                                       width = 0.1,
+                                       
+                                       height = 0.1)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1) +
+  
+  # #scale_color_manual(values = c("blue", "red")) +
+
+  theme_classic(base_size=22)
+
+```
+
+```{r}
+
+t.test(Days ~ Group,
+       
+       stage3sum)
+
+```
+
+
+```{r}
+
+stage3first = stage3 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == first(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+stage3last = stage3 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == last(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+```
+
+Let's check 1st day parameters? 
+
+```{r}
+
+stage3first_param = stage3first %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage3first_param)
+
+```
+
+Let's plot day 1 params
+
+```{r, fig.width=10}
+
+stage3first_param_piv = stage3first_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage3first_param_piv$name = factor(stage3first_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Perseveratives", "Timeouts"))
+
+head(stage3first_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage3first_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 3, First Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+Let's check last day parameters? 
+
+```{r}
+
+stage3last_param = stage3last %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage3last_param)
+
+```
+
+Let's plot day 3 params
+
+```{r, fig.width=10}
+
+stage3last_param_piv = stage3last_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage3last_param_piv$name = factor(stage3last_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Perseveratives", "Timeouts"))
+
+head(stage3last_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage3last_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 3, Last Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+# Stage 3: net change
+
+```{r}
+
+stage3.net = rbind(
+  
+  (stage3first_param_piv %>% mutate(Day = "First")),
+  
+  (stage3last_param_piv %>% mutate(Day = "Last"))
+  
+)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage3.net,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("Stage 3: Change from first to last day") +
+  xlab("Day") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage3.net %>% 
+              
+              filter(name == "Correct")))
+
+```
+
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage3.net %>% 
+              
+              filter(name == "Omissions")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage3.net %>% 
+              
+              filter(name == "Accuracy")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage3.net %>% 
+              
+              filter(name == "Prematures")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+
+            stage3.net %>%
+
+              filter(name == "Timeouts")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage3.net %>% 
+              
+              filter(name == "Perseveratives")))
+
+```
+
+# stage3 RT, CV, RL
+
+```{r}
+
+stage3first.RT = stage3first %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT))*10,
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+  
+  mutate(Day = "First")
+
+head(stage3first.RT)
+
+```
+
+```{r}
+
+stage3last.RT = stage3last %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT))*10,
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+
+  mutate(Day = "Last")
+
+head(stage3first.RT)
+
+```
+
+```{r}
+
+stage3.net.RT = rbind(
+  
+  stage3first.RT,
+  
+  stage3last.RT
+
+  )
+
+stage3.net.RT$name = factor(stage3.net.RT$name, 
+                                     
+                                     levels = c("RT.mean", "CV", "RL"))
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage3.net.RT,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("stage3: Change from first to last day") +
+  xlab("Day") +
+  ylab("Value") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage3.net.RT %>% 
+              
+              filter(name == "RT.mean")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage3.net.RT %>% 
+              
+              filter(name == "CV")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage3.net.RT %>% 
+              
+              filter(name == "RL")))
+
+
+```
+
+
+# Stage 4 first v last day
+
+```{r}
+
+stage4 = train %>% 
+  
+  filter(Stage == 4)
+
+```
+
+```{r}
+
+stage4sum = stage4 %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(Days = n())
+
+```
+
+
+```{r}
+
+ggplot(stage4sum,
+       
+  aes(Group,
+      
+      Days,
+      
+     color = Group,
+      
+      fill = Group,
+      
+      label = ID)) +
+  
+  geom_text_repel() + 
+  
+  geom_point(position = position_jitter(seed = 1,
+                                       
+                                       width = 0.1,
+                                       
+                                       height = 0.1)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1) +
+  
+  # #scale_color_manual(values = c("blue", "red")) +
+
+  theme_classic(base_size=22)
+
+```
+
+```{r}
+
+Stage4 = train %>% 
+  
+  filter(Stage == 4)
+
+```
+
+
+```{r}
+
+stage4first = stage4 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == first(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+stage4last = stage4 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == last(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+```
+
+Let's check 1st day parameters? 
+
+```{r}
+
+stage4first_param = stage4first %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage4first_param)
+
+```
+
+Let's plot day 1 params
+
+```{r, fig.width=10}
+
+stage4first_param_piv = stage4first_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage4first_param_piv$name = factor(stage4first_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Perseveratives", "Timeouts"))
+
+head(stage4first_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage4first_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 4, First Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+Let's check last day parameters? 
+
+```{r}
+
+stage4last_param = stage4last %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage4last_param)
+
+```
+
+Let's plot day 4 params
+
+```{r, fig.width=10}
+
+stage4last_param_piv = stage4last_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage4last_param_piv$name = factor(stage4last_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Perseveratives", "Timeouts"))
+
+head(stage4last_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage4last_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 4, Last Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+# Stage 4: net change
+
+```{r}
+
+stage4.net = rbind(
+  
+  (stage4first_param_piv %>% mutate(Day = "First")),
+  
+  (stage4last_param_piv %>% mutate(Day = "Last"))
+  
+)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage4.net,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("Stage 4: Change from first to last day") +
+  xlab("Day") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage4.net %>% 
+              
+              filter(name == "Correct")))
+
+```
+
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage4.net %>% 
+              
+              filter(name == "Omissions")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage4.net %>% 
+              
+              filter(name == "Accuracy")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage4.net %>% 
+              
+              filter(name == "Prematures")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+
+            stage4.net %>%
+
+              filter(name == "Timeouts")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage4.net %>% 
+              
+              filter(name == "Perseveratives")))
+
+```
+
+# stage4 RT, CV, RL
+
+```{r}
+
+stage4first.RT = stage4first %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT))*10,
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+  
+  mutate(Day = "First")
+
+head(stage4first.RT)
+
+```
+
+```{r}
+
+stage4last.RT = stage4last %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT))*10,
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+
+  mutate(Day = "Last")
+
+head(stage4first.RT)
+
+```
+
+```{r}
+
+stage4.net.RT = rbind(
+  
+  stage4first.RT,
+  
+  stage4last.RT
+
+  )
+
+stage4.net.RT$name = factor(stage4.net.RT$name, 
+                                     
+                                     levels = c("RT.mean", "CV", "RL"))
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage4.net.RT,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("stage4: Change from first to last day") +
+  xlab("Day") +
+  ylab("Value") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage4.net.RT %>% 
+              
+              filter(name == "RT.mean")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage4.net.RT %>% 
+              
+              filter(name == "CV")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage4.net.RT %>% 
+              
+              filter(name == "RL")))
+
+
+```
+
+
+# stage 5: programmatic graduation
+
+
+```{r}
+
+grad5 = train %>% 
+  
+  filter(Stage == 5) %>% 
+  
+  arrange(Date) %>% 
+  
+  group_by(ID, Date) %>% 
+
+  mutate(perc.corr = sum(Response == "Correct") / max(Trials)) %>% 
+  
+  ungroup() %>% 
+  
+  group_by(ID) %>% 
+  
+  mutate(
+    
+    Session = Session_all - (min(Session_all) - 1)
+         
+         )  
+
+head(grad5)
+
+```
+
+```{r, fig.height=10}
+
+check5 = grad5 %>%
+         
+         group_by(ID, Date) %>% 
+         
+         slice(n()) %>% 
+         
+         ungroup() %>% 
+         
+         group_by(ID) %>% 
+         
+         mutate(
+           
+           grad = case_when(
+             
+             perc.corr >= 0.4 &
+               dplyr::lag(perc.corr >= 0.4, n = 1) ~ 1,
+             
+             TRUE ~ 0),
+           
+           prog = case_when(
+             
+             lag(grad > 0, n = 1) ~ 1,
+             
+             TRUE ~ 0
+           ),
+           
+           prog.sum = cumsum(prog)
+           
+           ) %>% 
+  
+  ungroup()
+
+```
+
+
+```{r, fig.height=10}
+ggplot(check5 %>% 
+         
+         filter(prog.sum < 1),
+       
+       aes(Session,
+           
+           perc.corr,
+           
+           color = grad > 0)) +
+  
+  facet_wrap(~ ID) +
+  
+  geom_hline(yintercept = 0.40, color = "red") +
+  
+  geom_col(alpha = 0.1) +
+  
+  theme_classic()
+
+```
+
+```{r}
+
+passed5 = check5 %>% 
+         
+         filter(prog.sum < 1,
+                
+                ID != "1-10-1",
+                
+                ID != "1-8-2",
+                
+                ID != "2-16-4",
+                
+                ID != "2-28-2") %>% 
+  
+  mutate(combo = paste(ID, Date, sep = "-"))
+
+```
+
+
+```{r}
+
+prefilter.train.5 = train %>% 
+  
+  filter(Stage == 5) %>% 
+  
+  group_by(ID, Date) %>%
+  
+  mutate(perc.corr = sum(Response == "Correct") / max(Trials)) %>% 
+  
+  ungroup() %>% 
+  
+  group_by(ID) %>% 
+  
+  mutate(Session = Session_all - (min(Session_all) - 1),
+         
+         combo = paste(ID, Date, sep = "-")) %>% 
+  
+  ungroup()
+
+```
+
+```{r}
+
+train.pass.5 = prefilter.train.5 %>% 
+  
+  filter(combo %in% passed5$combo)
+
+  
+```
+
+```{r, fig.height=10}
+
+ggplot(train.pass.5 %>% 
+         
+         group_by(ID, Date) %>% 
+         
+         slice(n()),
+       
+       aes(Session,
+           
+           perc.corr,
+           
+           color = Group)) +
+  
+  facet_wrap(~ ID) +
+  
+  geom_hline(yintercept = 0.40, color = "red") +
+  
+  geom_col(alpha = 0.1) +
+  
+  theme_classic()
+
+```
+
+# Stage 5 first v last day
+
+```{r}
+
+stage5 = train.pass.5 %>% 
+  
+  filter(ID != "1-3-3",
+         
+         ID != "2-1-2")
+
+```
+
+
+```{r}
+
+stage5sum = stage5 %>% 
+
+  group_by(Group, Sex, ID, Date) %>% 
+  
+  summarise(Days = n()) %>% 
+    
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(Days = n())
+
+```
+
+
+```{r}
+
+ggplot(stage5sum,
+       
+  aes(Group,
+      
+      Days,
+      
+     color = Group,
+      
+      fill = Group,
+      
+      label = ID)) +
+  
+  geom_text_repel() + 
+  
+  geom_point(position = position_jitter(seed = 1,
+                                       
+                                       width = 0.1,
+                                       
+                                       height = 0.1)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1) +
+  
+  # #scale_color_manual(values = c("blue", "red")) +
+
+  theme_classic(base_size=22)
+
+```
+
+```{r}
+
+t.test(Days ~ Group,
+       
+       stage5sum)
+
+```
+
+
+```{r}
+
+stage5first = stage5 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == first(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+stage5last = stage5 %>% 
+  
+  group_by(ID) %>% 
+  
+  filter(Date == last(Date)) %>% 
+  
+  ungroup() %>% 
+  
+  select(Group, Sex, ID, Timestamp, Response, Trials, Port, Target, RT, RL)
+
+```
+
+Let's check 1st day parameters? 
+
+```{r}
+
+stage5first_param = stage5first %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage5first_param)
+
+```
+
+Let's plot day 1 params
+
+```{r, fig.width=10}
+
+stage5first_param_piv = stage5first_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage4first_param_piv$name = factor(stage4first_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Perseveratives", "Timeouts"))
+
+head(stage5first_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage5first_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 5, First Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+Let's check last day parameters? 
+
+```{r}
+
+stage5last_param = stage5last %>%
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    Correct = sum(Response == "Correct") / max(Trials),
+    
+    Omissions = sum(Response == "Omission") / max(Trials),
+    
+    Accuracy = sum(Response == "Correct") / (sum(Response == "Correct") + sum(Response == "Incorrect")),
+    
+    Prematures = sum(Response == "Premature") / max(Trials),
+    
+    Perseveratives = sum(Response == "Perseverative") / max(Trials),
+    
+    Timeouts = sum(Response == "Timeout") / max(Trials)
+    
+    ) %>% 
+  
+  ungroup()
+
+
+head(stage5last_param)
+
+```
+
+Let's plot day 5 params
+
+```{r, fig.width=10}
+
+stage5last_param_piv = stage5last_param %>% 
+  
+  pivot_longer(cols = Correct : Timeouts)
+
+stage5last_param_piv$name = factor(stage5last_param_piv$name, 
+                                     
+                                     levels = c("Correct", "Omissions", "Accuracy",
+                                                
+                                                "Prematures", "Perseveratives", "Timeouts"))
+
+head(stage5last_param_piv)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage5last_param_piv,
+       
+       aes(name,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  # geom_text_repel(position = position_jitterdodge(seed = 1,
+  #                                      
+  #                                      jitter.width = 0.1,
+  #                                      
+  #                                      jitter.height = 0.1,
+  #                                      
+  #                                      dodge.width = 0.5)) + 
+  
+  geom_point(position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.25,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 1,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+
+  #scale_color_manual(values = c("blue", "red")) +
+  
+  #scale_fill_manual(values = c("blue", "red")) +
+  
+  ggtitle("Stage 5, Last Day") +
+  xlab("Parameter") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=22)
+
+```
+
+# Stage 5: net change
+
+```{r}
+
+stage5.net = rbind(
+  
+  (stage5first_param_piv %>% mutate(Day = "First")),
+  
+  (stage5last_param_piv %>% mutate(Day = "Last"))
+  
+)
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage5.net,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("Stage 5: Change from first to last day") +
+  xlab("Day") +
+  ylab("Proportion") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage5.net %>% 
+              
+              filter(name == "Correct")))
+
+```
+
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage5.net %>% 
+              
+              filter(name == "Omissions")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage5.net %>% 
+              
+              filter(name == "Accuracy")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage5.net %>% 
+              
+              filter(name == "Prematures")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+
+            stage5.net %>%
+
+              filter(name == "Timeouts")))
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage5.net %>% 
+              
+              filter(name == "Perseveratives")))
+
+```
+
+# stage5 RT, CV, RL
+
+```{r}
+
+stage5first.RT = stage5first %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT)),
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+  
+  mutate(Day = "First")
+
+head(stage5first.RT)
+
+```
+
+```{r}
+
+stage5last.RT = stage5last %>%
+  
+  filter(Response == "Correct") %>% 
+  
+  group_by(Group, Sex, ID) %>% 
+  
+  summarise(
+    
+    RT.mean = mean(RT*60),
+    
+    CV = (sd(RT) / mean(RT)),
+    
+    RL = mean(RL)
+    
+    ) %>% 
+  
+  ungroup() %>% 
+  
+  pivot_longer(cols = RT.mean:RL) %>% 
+
+  mutate(Day = "Last")
+
+head(stage5first.RT)
+
+```
+
+```{r}
+
+stage5.net.RT = rbind(
+  
+  stage5first.RT,
+  
+  stage5last.RT
+
+  )
+
+stage5.net.RT$name = factor(stage5.net.RT$name, 
+                                     
+                                     levels = c("RT.mean", "CV", "RL"))
+
+```
+
+```{r, fig.width=12}
+
+ggplot(stage5.net.RT,
+       
+       aes(Day,
+           
+           value,
+           
+           label = ID,
+           
+           color = Group,
+           
+           fill = Group)) +
+  
+  
+  facet_wrap( ~ name) +
+  
+  
+  geom_hline(yintercept = 0.5, color = "gray") +
+  
+  
+  geom_point(alpha = 0.5 ,
+             
+             position = position_jitterdodge(seed = 1,
+                                       
+                                       jitter.width = 0.1,
+                                       
+                                       jitter.height = 0.1,
+                                       
+                                       dodge.width = 0.5)) +
+  
+  
+  stat_summary(fun = "mean",
+               
+               geom = "col",
+               
+               width = 0.33,
+               
+               alpha = 0.2,
+               
+               position = position_dodge(width = 0.5)) +
+  
+  
+  stat_summary(fun.data = "mean_se",
+               
+               geom = "errorbar",
+               
+               size = 0.75,
+               
+               width = 0.1,
+               
+               position = position_dodge(width = 0.5),
+               
+               color = "black") +
+  
+  
+  ggtitle("stage5: Change from first to last day") +
+  xlab("Day") +
+  ylab("Value") +
+  
+  theme_classic(base_size=20)
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage5.net.RT %>% 
+              
+              filter(name == "RT.mean")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage5.net.RT %>% 
+              
+              filter(name == "CV")))
+
+
+```
+
+```{r}
+
+summary(aov(value ~ (Group*Day) + Error(ID),
+            
+            stage5.net.RT %>% 
+              
+              filter(name == "RL")))
+
+
+```
+
+
+# graduation timeline, by sex
+
+```{r}
+
+stage5 = train.pass.5 %>% 
+  
+  filter(ID != "1-3-3",
+         
+         ID != "2-1-2")
+
+```
+
+```{r}
+
+stage5.to6.pre = train %>% 
+  
+  mutate(
+    
+    combo = paste(ID, Date, sep = "-"),
+    
+    grad.check = case_when(
+      
+      combo %in% stage5$combo ~ FALSE,
+      
+      TRUE ~ TRUE
+      
+    ))
+    
+stage5.to6 = stage5.to6.pre %>% 
+  
+  mutate(Stage = case_when(
+    
+    ID %in% stage5$ID & Stage == 5 & grad.check == FALSE ~ 6,
+    
+    TRUE ~ Stage
+    
+  ))
+
+```
+
+
+```{r, fig.width=12, fig.height=8}
+
+ggplot(stage5.to6 %>% 
+         
+         filter(Session_all < 100) %>% 
+         
+         group_by(Group, Sex, Stage, ID, Session_all) %>% 
+         
+         summarise(n = n()),
+
+       aes(Session_all,
+           
+           as.integer(Stage),
+           
+           fill = Group
+           
+           )) +
+  
+  facet_wrap(~ Sex) +
+
+  geom_jitter(aes(color = Group),
+              height = 0.1,
+              width = 0.1) +
+
+  stat_summary(aes(fill = Group),
+               fun = "mean", geom = "line",
+               size = 1) +
+
+  stat_summary(fun.data = "mean_se", geom = "ribbon",
+               alpha = 0.25) +
+  
+  scale_y_continuous(breaks = seq(0, 6, by = 1)) +
+  
+  # scale_color_manual(values = c("dodgerblue", "orange", "green2"))+
+  #scale_fill_manual(values = c("dodgerblue", "orange", "green"))+
+
+  ggtitle("Progress across training stages") +
+  ylab("Stage of Training") +
+  xlab("Day of Training") +
+
+  theme_classic(base_size=22) +
+  
+  theme(axis.text = element_text(size = 14),
+        strip.text.x = element_text(size = 16),
+        title = element_text(size = 16)
+        )
+
+```
+
+# graduation timeline
+
+```{r, fig.width=10, fig.height=8}
+
+ggplot(stage5.to6 %>% 
+         
+         filter(Session_all < 100) %>% 
+         
+         group_by(Group, Sex, Stage, ID, Session_all) %>% 
+         
+         summarise(n = n()),
+
+       aes(Session_all,
+           
+           as.integer(Stage),
+           
+           fill = Group
+           
+           )) +
+  
+  # facet_wrap(~ Sex) +
+
+  geom_jitter(aes(color = Group),
+              height = 0.1,
+              width = 0.1) +
+
+  stat_summary(aes(fill = Group),
+               fun = "mean", geom = "line",
+               size = 1) +
+
+  stat_summary(fun.data = "mean_se", geom = "ribbon",
+               alpha = 0.25) +
+  
+  scale_y_continuous(breaks = seq(0, 6, by = 1)) +
+  
+  # scale_color_manual(values = c("dodgerblue", "orange", "green2"))+
+  #scale_fill_manual(values = c("dodgerblue", "orange", "green"))+
+
+  ggtitle("Progress across training stages") +
+  ylab("Stage of Training") +
+  xlab("Day of Training") +
+
+  theme_classic(base_size=22) +
+  
+  theme(axis.text = element_text(size = 14),
+        strip.text.x = element_text(size = 16),
+        title = element_text(size = 16)
+        )
+
+```
+
+```{r}
+
+summary(aov(Stage ~ (Group * Session_all) + Error(ID),
+            
+            data = stage5.to6 %>%
+              
+              filter(Session_all < 20)))
+
+```
+
+```{r}
+
+train.lmer40 = lme4::lmer(Stage ~ Group * Session_all + (1 | ID),
+     
+     data = stage5.to6 %>%
+       
+              group_by(ID, Session_all) %>% 
+       
+       slice(n()) %>% 
+       
+       ungroup() %>% 
+       
+       filter(Session_all < 41))
+
+```
+
+
+```{r}
+
+summary(train.lmer40)
+
+```
+
+
+```{r}
+
+car::Anova(train.lmer40)
+
+```
+
